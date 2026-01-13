@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <defs>
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f4c4a0"/>
+      <stop offset="100%" style="stop-color:#e8a882"/>
+    </linearGradient>
+    <linearGradient id="bandGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ee5a5a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="300" height="200" fill="#e8f4f8"/>
+
+  <!-- Anchor point (pole) -->
+  <rect x="40" y="40" width="8" height="130" rx="2" fill="#666"/>
+  <circle cx="44" cy="100" r="6" fill="#888"/>
+
+  <!-- Resistance band -->
+  <path d="M50 100 Q100 100 130 105 Q140 107 145 110" stroke="url(#bandGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+  <!-- Standing leg (right, back) -->
+  <ellipse cx="170" cy="165" rx="18" ry="8" fill="#555"/>
+  <rect x="162" y="100" width="16" height="70" rx="8" fill="url(#skinGrad)"/>
+
+  <!-- Working leg (left) -->
+  <g>
+    <!-- Upper leg -->
+    <rect x="182" y="75" width="22" height="55" rx="10" fill="url(#skinGrad)" transform="rotate(5 193 100)"/>
+    <!-- Lower leg - extended -->
+    <rect x="185" y="125" width="18" height="50" rx="8" fill="url(#skinGrad)" transform="rotate(-2 194 150)"/>
+    <!-- Knee joint -->
+    <circle cx="194" cy="127" r="10" fill="url(#skinGrad)"/>
+    <!-- Foot -->
+    <ellipse cx="195" cy="178" rx="20" ry="8" fill="#555"/>
+  </g>
+
+  <!-- Band around knee -->
+  <path d="M145 110 Q175 115 188 120" stroke="url(#bandGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+  <!-- Torso -->
+  <rect x="165" y="30" width="45" height="55" rx="15" fill="#4a90d9"/>
+
+  <!-- Head -->
+  <circle cx="188" cy="18" r="15" fill="url(#skinGrad)"/>
+
+  <!-- Arms -->
+  <rect x="208" y="35" width="10" height="35" rx="5" fill="url(#skinGrad)" transform="rotate(10 213 50)"/>
+  <rect x="157" y="35" width="10" height="35" rx="5" fill="url(#skinGrad)" transform="rotate(-10 162 50)"/>
+
+  <!-- Arrow showing movement -->
+  <path d="M220 140 L245 140" stroke="#4caf50" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4caf50"/>
+    </marker>
+  </defs>
+
+  <!-- Text label -->
+  <text x="150" y="195" font-family="Arial, sans-serif" font-size="10" fill="#666" text-anchor="middle">Extend knee against band resistance</text>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <defs>
+    <linearGradient id="skinGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f4c4a0"/>
+      <stop offset="100%" style="stop-color:#e8a882"/>
+    </linearGradient>
+    <linearGradient id="bandGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ee5a5a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="300" height="200" fill="#e8f4f8"/>
+
+  <!-- Floor -->
+  <rect x="20" y="170" width="260" height="4" rx="2" fill="#ccc"/>
+
+  <!-- Mat -->
+  <rect x="30" y="165" width="200" height="8" rx="2" fill="#9c88ff"/>
+
+  <!-- Person lying on side -->
+  <g>
+    <!-- Head -->
+    <circle cx="55" cy="100" r="15" fill="url(#skinGrad3)"/>
+
+    <!-- Arm under head -->
+    <rect x="35" y="112" width="40" height="10" rx="5" fill="url(#skinGrad3)"/>
+
+    <!-- Torso (side view) -->
+    <ellipse cx="110" cy="120" rx="40" ry="25" fill="#4a90d9"/>
+
+    <!-- Bottom leg (stationary) -->
+    <g>
+      <!-- Upper leg -->
+      <rect x="140" y="135" width="45" height="18" rx="9" fill="url(#skinGrad3)"/>
+      <!-- Lower leg (bent back) -->
+      <rect x="175" y="145" width="40" height="15" rx="7" fill="url(#skinGrad3)" transform="rotate(30 195 152)"/>
+      <!-- Foot -->
+      <ellipse cx="205" cy="168" rx="12" ry="5" fill="#555"/>
+    </g>
+
+    <!-- Top leg (rotating up - the clamshell) -->
+    <g>
+      <!-- Upper leg -->
+      <rect x="140" y="110" width="45" height="18" rx="9" fill="url(#skinGrad3)" transform="rotate(-25 162 119)"/>
+      <!-- Lower leg (bent) -->
+      <rect x="165" y="90" width="40" height="15" rx="7" fill="url(#skinGrad3)" transform="rotate(50 185 97)"/>
+      <!-- Foot -->
+      <ellipse cx="185" cy="120" rx="12" ry="5" fill="#555" transform="rotate(50 185 120)"/>
+    </g>
+
+    <!-- Resistance band around thighs -->
+    <ellipse cx="155" cy="128" rx="25" ry="20" stroke="url(#bandGrad2)" stroke-width="5" fill="none" transform="rotate(-10 155 128)"/>
+
+    <!-- Top arm resting on hip -->
+    <rect x="95" y="95" width="30" height="8" rx="4" fill="url(#skinGrad3)" transform="rotate(20 110 99)"/>
+  </g>
+
+  <!-- Arrow showing rotation -->
+  <path d="M195 75 A 30 30 0 0 1 175 55" stroke="#4caf50" stroke-width="3" fill="none"/>
+  <polygon points="177 60, 170 50, 180 52" fill="#4caf50"/>
+
+  <!-- Text label -->
+  <text x="150" y="190" font-family="Arial, sans-serif" font-size="10" fill="#666" text-anchor="middle">Rotate knee up, keep feet together</text>
+</svg>

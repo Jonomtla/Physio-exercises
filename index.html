@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4a90d9">
+    <meta name="description" content="Track your daily knee rehabilitation exercises">
+    <title>Knee Rehab Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Knee Rehab Tracker</h1>
+            <button id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-value" id="streak-count">0</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="total-days">0</span>
+                <span class="stat-label">Total Days</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="today-progress">0/4</span>
+                <span class="stat-label">Today</span>
+            </div>
+        </div>
+
+        <section class="exercise-section">
+            <h2>Daily Exercises</h2>
+
+            <div class="exercise-card" data-exercise="tke">
+                <div class="exercise-header">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="check-tke">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="exercise-title" role="button" tabindex="0">
+                        <h3>Terminal Knee Extensions</h3>
+                        <span class="exercise-reps">3 sets × 15-20 reps each leg</span>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="exercise-details">
+                    <div class="exercise-image">
+                        <img src="images/tke.svg" alt="Terminal Knee Extension demonstration" loading="lazy">
+                    </div>
+                    <div class="exercise-instructions">
+                        <p><strong>Setup:</strong> Loop a resistance band around a sturdy object at knee height. Step into the band so it's behind your knee.</p>
+                        <p><strong>Movement:</strong> Stand on the banded leg, slightly bend the knee, then fully straighten it against the band resistance. Focus on squeezing the quad at the top.</p>
+                        <p><strong>Tip:</strong> Keep your hips stable and avoid leaning back.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-card" data-exercise="glute-bridge">
+                <div class="exercise-header">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="check-glute-bridge">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="exercise-title" role="button" tabindex="0">
+                        <h3>Single-Leg Glute Bridges</h3>
+                        <span class="exercise-reps">3 sets × 12 each side</span>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="exercise-details">
+                    <div class="exercise-image">
+                        <img src="images/glute-bridge.svg" alt="Single-Leg Glute Bridge demonstration" loading="lazy">
+                    </div>
+                    <div class="exercise-instructions">
+                        <p><strong>Setup:</strong> Lie on your back, knees bent, feet flat on the floor. Extend one leg straight out.</p>
+                        <p><strong>Movement:</strong> Press through the grounded foot to lift your hips until your body forms a straight line from shoulders to knee. Lower with control.</p>
+                        <p><strong>Tip:</strong> Don't let your hips drop or rotate. Squeeze your glute at the top.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-card" data-exercise="clamshell">
+                <div class="exercise-header">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="check-clamshell">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="exercise-title" role="button" tabindex="0">
+                        <h3>Banded Clamshells</h3>
+                        <span class="exercise-reps">3 sets × 15 each side</span>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="exercise-details">
+                    <div class="exercise-image">
+                        <img src="images/clamshell.svg" alt="Banded Clamshell demonstration" loading="lazy">
+                    </div>
+                    <div class="exercise-instructions">
+                        <p><strong>Setup:</strong> Lie on your side with a band around both thighs just above the knees. Bend knees to 90 degrees, feet together.</p>
+                        <p><strong>Movement:</strong> Keeping feet together, rotate your top knee up toward the ceiling like a clamshell opening. Lower with control.</p>
+                        <p><strong>Tip:</strong> Don't let your hips roll backward. Keep your core engaged.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-card" data-exercise="wall-sit">
+                <div class="exercise-header">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="check-wall-sit">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="exercise-title" role="button" tabindex="0">
+                        <h3>Wall Sits</h3>
+                        <span class="exercise-reps">3 × 30-45 seconds</span>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="exercise-details">
+                    <div class="exercise-image">
+                        <img src="images/wall-sit.svg" alt="Wall Sit demonstration" loading="lazy">
+                    </div>
+                    <div class="exercise-instructions">
+                        <p><strong>Setup:</strong> Stand with your back against a wall, feet shoulder-width apart and about 2 feet from the wall.</p>
+                        <p><strong>Movement:</strong> Slide down until your thighs are parallel to the floor. Hold the position.</p>
+                        <p><strong>Important:</strong> Bias weight to your LEFT leg to strengthen that side more.</p>
+                        <p><strong>Tip:</strong> Keep your back flat against the wall and don't let your knees go past your toes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="exercise-section warmup-section">
+            <h2>Pre-Run Warmup</h2>
+            <p class="section-note">Only do these before running</p>
+
+            <div class="exercise-card" data-exercise="leg-swing">
+                <div class="exercise-header">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="check-leg-swing">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="exercise-title" role="button" tabindex="0">
+                        <h3>Leg Swings</h3>
+                        <span class="exercise-reps">10 each direction, each leg</span>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="exercise-details">
+                    <div class="exercise-image">
+                        <img src="images/leg-swing.svg" alt="Leg Swing demonstration" loading="lazy">
+                    </div>
+                    <div class="exercise-instructions">
+                        <p><strong>Setup:</strong> Stand next to a wall or hold onto something sturdy for balance.</p>
+                        <p><strong>Forward/Back:</strong> Swing one leg forward and backward in a controlled pendulum motion. Keep your torso stable.</p>
+                        <p><strong>Side-to-Side:</strong> Face the wall and swing your leg across your body and out to the side.</p>
+                        <p><strong>Tip:</strong> Start with small swings and gradually increase the range of motion.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="notes-section">
+            <h2>Daily Notes</h2>
+            <textarea id="daily-notes" placeholder="How does your knee feel today? Any pain or discomfort?"></textarea>
+        </section>
+
+        <section class="calendar-section">
+            <h2>This Week</h2>
+            <div class="week-view" id="week-view">
+                <!-- Generated by JavaScript -->
+            </div>
+        </section>
+
+        <footer>
+            <p>Stay consistent, recover strong! 💪</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
