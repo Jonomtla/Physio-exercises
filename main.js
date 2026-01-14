@@ -9,7 +9,7 @@
                 name: 'Terminal Knee Extensions',
                 sets: 3,
                 reps: '15-20 reps each leg',
-                image: 'images/tke.svg',
+                icon: '🦵',
                 instructions: [
                     { label: 'Setup', text: 'Loop a resistance band around a sturdy object at knee height. Step into the band so it\'s behind your knee.' },
                     { label: 'Movement', text: 'Stand on the banded leg, slightly bend the knee, then fully straighten it against the band resistance. Focus on squeezing the quad at the top.' },
@@ -21,7 +21,7 @@
                 name: 'Single-Leg Glute Bridges',
                 sets: 3,
                 reps: '12 each side',
-                image: 'images/glute-bridge.svg',
+                icon: '🍑',
                 instructions: [
                     { label: 'Setup', text: 'Lie on your back, knees bent, feet flat on the floor. Extend one leg straight out.' },
                     { label: 'Movement', text: 'Press through the grounded foot to lift your hips until your body forms a straight line from shoulders to knee. Lower with control.' },
@@ -33,7 +33,7 @@
                 name: 'Banded Clamshells',
                 sets: 3,
                 reps: '15 each side',
-                image: 'images/clamshell.svg',
+                icon: '🐚',
                 instructions: [
                     { label: 'Setup', text: 'Lie on your side with a band around both thighs just above the knees. Bend knees to 90 degrees, feet together.' },
                     { label: 'Movement', text: 'Keeping feet together, rotate your top knee up toward the ceiling like a clamshell opening. Lower with control.' },
@@ -45,7 +45,7 @@
                 name: 'Wall Sits',
                 sets: 3,
                 reps: '30-45 seconds',
-                image: 'images/wall-sit.svg',
+                icon: '🧱',
                 instructions: [
                     { label: 'Setup', text: 'Stand with your back against a wall, feet shoulder-width apart and about 2 feet from the wall.' },
                     { label: 'Movement', text: 'Slide down until your thighs are parallel to the floor. Hold the position.' },
@@ -58,7 +58,7 @@
                 name: 'Resisted Knee Drive',
                 sets: 3,
                 reps: '12-15 each leg',
-                image: 'images/knee-drive.svg',
+                icon: '🏃',
                 instructions: [
                     { label: 'Setup', text: 'Attach a resistance band to a low anchor point. Loop it around one foot and face away from the anchor.' },
                     { label: 'Movement', text: 'Drive your knee up toward your chest against the band resistance. Control the return. Keep your standing leg slightly bent.' },
@@ -73,7 +73,7 @@
                 name: 'Leg Swings',
                 sets: 1,
                 reps: '10 each direction, each leg',
-                image: 'images/leg-swing.svg',
+                icon: '🦿',
                 instructions: [
                     { label: 'Setup', text: 'Stand next to a wall or hold onto something sturdy for balance.' },
                     { label: 'Forward/Back', text: 'Swing one leg forward and backward in a controlled pendulum motion. Keep your torso stable.' },
@@ -238,13 +238,9 @@
         var details = document.createElement('div');
         details.className = 'exercise-details';
 
-        var imgDiv = document.createElement('div');
-        imgDiv.className = 'exercise-image';
-        var img = document.createElement('img');
-        img.src = exercise.image;
-        img.alt = exercise.name + ' demonstration';
-        img.loading = 'lazy';
-        imgDiv.appendChild(img);
+        var iconDiv = document.createElement('div');
+        iconDiv.className = 'exercise-icon';
+        iconDiv.textContent = exercise.icon;
 
         var instructions = document.createElement('div');
         instructions.className = 'exercise-instructions';
@@ -257,7 +253,7 @@
             instructions.appendChild(p);
         });
 
-        details.appendChild(imgDiv);
+        details.appendChild(iconDiv);
         details.appendChild(instructions);
 
         card.appendChild(header);
