@@ -1,4 +1,5 @@
 const { useState, useEffect, useCallback } = React;
+const e = React.createElement;
 
 // Exercise data
 const EXERCISES = {
@@ -83,7 +84,7 @@ const EXERCISES = {
   ]
 };
 
-const DAILY_EXERCISE_IDS = EXERCISES.daily.map(e => e.id);
+const DAILY_EXERCISE_IDS = EXERCISES.daily.map(ex => ex.id);
 const ALL_EXERCISES = [...EXERCISES.daily, ...EXERCISES.warmup];
 
 // Utility functions
@@ -94,7 +95,6 @@ const getWeekDates = () => {
   const dayOfWeek = today.getDay();
   const monday = new Date(today);
   monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-
   return Array.from({ length: 7 }, (_, i) => {
     const date = new Date(monday);
     date.setDate(monday.getDate() + i);
@@ -107,7 +107,7 @@ const loadData = () => {
   try {
     const stored = localStorage.getItem('knee-rehab-data');
     return stored ? JSON.parse(stored) : { completedDays: {} };
-  } catch {
+  } catch (err) {
     return { completedDays: {} };
   }
 };
@@ -115,125 +115,120 @@ const loadData = () => {
 const saveData = (data) => {
   try {
     localStorage.setItem('knee-rehab-data', JSON.stringify(data));
-  } catch (e) {
-    console.error('Error saving data:', e);
+  } catch (err) {
+    console.error('Error saving data:', err);
   }
 };
 
-// Components
-const SetCounter = ({ current, total, onIncrement, onDecrement }) => (
-  <div className="set-counter" onClick={(e) => e.stopPropagation()}>
-    <button
-      className="set-btn"
-      onClick={onDecrement}
-      disabled={current === 0}
-      aria-label="Decrease sets"
-    >
-      −
-    </button>
-    <span className="set-display">
-      <span className={`set-current ${current === total ? 'complete' : ''}`}>{current}</span>
-      <span className="set-separator">/</span>
-      <span className="set-total">{total}</span>
-    </span>
-    <button
-      className="set-btn"
-      onClick={onIncrement}
-      disabled={current === total}
-      aria-label="Increase sets"
-    >
-      +
-    </button>
-  </div>
-);
+// SetCounter Component
+function SetCounter({ current, total, onIncrement, onDecrement }) {
+  return e('div', { className: 'set-counter', onClick: (ev) => ev.stopPropagation() },
+    e('button', {
+      className: 'set-btn',
+      onClick: onDecrement,
+      disabled: current === 0,
+      'aria-label': 'Decrease sets'
+    }, '−'),
+    e('span', { className: 'set-display' },
+      e('span', { className: 'set-current' + (current === total ? ' complete' : '') }, current),
+      e('span', { className: 'set-separator' }, '/'),
+      e('span', { className: 'set-total' }, total)
+    ),
+    e('button', {
+      className: 'set-btn',
+      onClick: onIncrement,
+      disabled: current === total,
+      'aria-label': 'Increase sets'
+    }, '+')
+  );
+}
 
-const ExerciseCard = ({ exercise, completedSets, onSetChange, isExpanded, onToggle }) => {
+// ExerciseCard Component
+function ExerciseCard({ exercise, completedSets, onSetChange, isExpanded, onToggle }) {
   const isComplete = completedSets >= exercise.sets;
 
-  return (
-    <div className={`exercise-card ${isComplete ? 'completed' : ''} ${isExpanded ? 'expanded' : ''}`}>
-      <div className="exercise-header" onClick={onToggle}>
-        <div className={`completion-indicator ${isComplete ? 'done' : ''}`}>
-          {isComplete ? '✓' : ''}
-        </div>
-        <div className="exercise-title">
-          <h3>{exercise.name}</h3>
-          <span className="exercise-reps">{exercise.reps}</span>
-        </div>
-        <SetCounter
-          current={completedSets}
-          total={exercise.sets}
-          onIncrement={() => onSetChange(exercise.id, completedSets + 1)}
-          onDecrement={() => onSetChange(exercise.id, completedSets - 1)}
-        />
-        <span className="expand-icon">▼</span>
-      </div>
-      <div className="exercise-details">
-        <div className="exercise-image">
-          <img src={exercise.image} alt={`${exercise.name} demonstration`} loading="lazy" />
-        </div>
-        <div className="exercise-instructions">
-          {exercise.instructions.map((inst, i) => (
-            <p key={i}><strong>{inst.label}:</strong> {inst.text}</p>
-          ))}
-        </div>
-      </div>
-    </div>
+  return e('div', { className: 'exercise-card' + (isComplete ? ' completed' : '') + (isExpanded ? ' expanded' : '') },
+    e('div', { className: 'exercise-header', onClick: onToggle },
+      e('div', { className: 'completion-indicator' + (isComplete ? ' done' : '') }, isComplete ? '✓' : ''),
+      e('div', { className: 'exercise-title' },
+        e('h3', null, exercise.name),
+        e('span', { className: 'exercise-reps' }, exercise.reps)
+      ),
+      e(SetCounter, {
+        current: completedSets,
+        total: exercise.sets,
+        onIncrement: () => onSetChange(exercise.id, completedSets + 1),
+        onDecrement: () => onSetChange(exercise.id, completedSets - 1)
+      }),
+      e('span', { className: 'expand-icon' }, '▼')
+    ),
+    e('div', { className: 'exercise-details' },
+      e('div', { className: 'exercise-image' },
+        e('img', { src: exercise.image, alt: exercise.name + ' demonstration', loading: 'lazy' })
+      ),
+      e('div', { className: 'exercise-instructions' },
+        exercise.instructions.map((inst, i) =>
+          e('p', { key: i },
+            e('strong', null, inst.label + ': '),
+            inst.text
+          )
+        )
+      )
+    )
   );
-};
+}
 
-const WeekView = ({ completedDays }) => {
+// WeekView Component
+function WeekView({ completedDays }) {
   const weekDates = getWeekDates();
   const today = getTodayString();
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-  return (
-    <div className="week-view">
-      {weekDates.map((date, index) => {
-        const dateString = date.toISOString().split('T')[0];
-        const isToday = dateString === today;
-        const dayData = completedDays[dateString];
-        const isComplete = dayData?.allComplete;
+  return e('div', { className: 'week-view' },
+    weekDates.map((date, index) => {
+      const dateString = date.toISOString().split('T')[0];
+      const isToday = dateString === today;
+      const dayData = completedDays[dateString];
+      const isComplete = dayData && dayData.allComplete;
 
-        let classes = 'day-cell';
-        if (isToday) classes += ' today';
-        if (isComplete) classes += ' completed';
+      let classes = 'day-cell';
+      if (isToday) classes += ' today';
+      if (isComplete) classes += ' completed';
 
-        return (
-          <div key={dateString} className={classes}>
-            <span className="day-name">{dayNames[index]}</span>
-            <span className="day-number">{date.getDate()}</span>
-            <span className="day-status">{isComplete ? '✓' : (isToday ? '•' : '')}</span>
-          </div>
-        );
-      })}
-    </div>
+      return e('div', { key: dateString, className: classes },
+        e('span', { className: 'day-name' }, dayNames[index]),
+        e('span', { className: 'day-number' }, date.getDate()),
+        e('span', { className: 'day-status' }, isComplete ? '✓' : (isToday ? '•' : ''))
+      );
+    })
   );
-};
+}
 
-const StatsBar = ({ streak, totalDays, todayProgress, totalDaily }) => (
-  <div className="stats-bar">
-    <div className="stat">
-      <span className="stat-value">{streak}</span>
-      <span className="stat-label">Day Streak</span>
-    </div>
-    <div className="stat">
-      <span className="stat-value">{totalDays}</span>
-      <span className="stat-label">Total Days</span>
-    </div>
-    <div className="stat">
-      <span className="stat-value">{todayProgress}/{totalDaily}</span>
-      <span className="stat-label">Today</span>
-    </div>
-  </div>
-);
+// StatsBar Component
+function StatsBar({ streak, totalDays, todayProgress, totalDaily }) {
+  return e('div', { className: 'stats-bar' },
+    e('div', { className: 'stat' },
+      e('span', { className: 'stat-value' }, streak),
+      e('span', { className: 'stat-label' }, 'Day Streak')
+    ),
+    e('div', { className: 'stat' },
+      e('span', { className: 'stat-value' }, totalDays),
+      e('span', { className: 'stat-label' }, 'Total Days')
+    ),
+    e('div', { className: 'stat' },
+      e('span', { className: 'stat-value' }, todayProgress + '/' + totalDaily),
+      e('span', { className: 'stat-label' }, 'Today')
+    )
+  );
+}
 
-const App = () => {
+// Main App Component
+function App() {
   const [data, setData] = useState(() => loadData());
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('knee-rehab-theme');
     if (saved) return saved;
-    if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark';
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
     return 'light';
   });
   const [expandedCard, setExpandedCard] = useState(null);
@@ -262,10 +257,9 @@ const App = () => {
 
     const totalDays = completedDaysList.length;
 
-    // Calculate streak
     let streak = 0;
     let checkDate = new Date();
-    const todayComplete = data.completedDays[today]?.allComplete;
+    const todayComplete = data.completedDays[today] && data.completedDays[today].allComplete;
 
     if (!todayComplete) {
       checkDate.setDate(checkDate.getDate() - 1);
@@ -273,7 +267,7 @@ const App = () => {
 
     while (true) {
       const dateString = checkDate.toISOString().split('T')[0];
-      if (data.completedDays[dateString]?.allComplete) {
+      if (data.completedDays[dateString] && data.completedDays[dateString].allComplete) {
         streak++;
         checkDate.setDate(checkDate.getDate() - 1);
       } else {
@@ -286,13 +280,11 @@ const App = () => {
 
   const { streak, totalDays } = calculateStats();
 
-  // Count completed exercises for today
   const todayProgress = DAILY_EXERCISE_IDS.filter(id => {
-    const exercise = ALL_EXERCISES.find(e => e.id === id);
+    const exercise = ALL_EXERCISES.find(ex => ex.id === id);
     return (todayData.sets[id] || 0) >= exercise.sets;
   }).length;
 
-  // Handle set change
   const handleSetChange = (exerciseId, newSets) => {
     setData(prevData => {
       const newData = { ...prevData };
@@ -300,9 +292,8 @@ const App = () => {
 
       todayEntry.sets = { ...todayEntry.sets, [exerciseId]: newSets };
 
-      // Check if all daily exercises are complete
       todayEntry.allComplete = DAILY_EXERCISE_IDS.every(id => {
-        const exercise = ALL_EXERCISES.find(e => e.id === id);
+        const exercise = ALL_EXERCISES.find(ex => ex.id === id);
         return (todayEntry.sets[id] || 0) >= exercise.sets;
       });
 
@@ -312,9 +303,8 @@ const App = () => {
     });
   };
 
-  // Handle notes change
-  const handleNotesChange = (e) => {
-    const newNotes = e.target.value;
+  const handleNotesChange = (ev) => {
+    const newNotes = ev.target.value;
     setNotes(newNotes);
 
     setData(prevData => {
@@ -330,77 +320,64 @@ const App = () => {
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
   const toggleCard = (id) => setExpandedCard(prev => prev === id ? null : id);
 
-  return (
-    <div className="app-container">
-      <header>
-        <h1>Knee Rehab Tracker</h1>
-        <button id="theme-toggle" onClick={toggleTheme} aria-label="Toggle dark mode">
-          <span className="sun-icon" style={{ display: theme === 'dark' ? 'block' : 'none' }}>☀️</span>
-          <span className="moon-icon" style={{ display: theme === 'light' ? 'block' : 'none' }}>🌙</span>
-        </button>
-      </header>
-
-      <StatsBar
-        streak={streak}
-        totalDays={totalDays}
-        todayProgress={todayProgress}
-        totalDaily={DAILY_EXERCISE_IDS.length}
-      />
-
-      <section className="exercise-section">
-        <h2>Daily Exercises</h2>
-        {EXERCISES.daily.map(exercise => (
-          <ExerciseCard
-            key={exercise.id}
-            exercise={exercise}
-            completedSets={todayData.sets[exercise.id] || 0}
-            onSetChange={handleSetChange}
-            isExpanded={expandedCard === exercise.id}
-            onToggle={() => toggleCard(exercise.id)}
-          />
-        ))}
-      </section>
-
-      <section className="exercise-section warmup-section">
-        <h2>Pre-Run Warmup</h2>
-        <p className="section-note">Only do these before running</p>
-        {EXERCISES.warmup.map(exercise => (
-          <ExerciseCard
-            key={exercise.id}
-            exercise={exercise}
-            completedSets={todayData.sets[exercise.id] || 0}
-            onSetChange={handleSetChange}
-            isExpanded={expandedCard === exercise.id}
-            onToggle={() => toggleCard(exercise.id)}
-          />
-        ))}
-      </section>
-
-      <section className="notes-section">
-        <h2>Daily Notes</h2>
-        <textarea
-          id="daily-notes"
-          value={notes}
-          onChange={handleNotesChange}
-          placeholder="How does your knee feel today? Any pain or discomfort?"
-        />
-      </section>
-
-      <section className="calendar-section">
-        <h2>This Week</h2>
-        <WeekView completedDays={data.completedDays} />
-      </section>
-
-      <footer>
-        <p>Stay consistent, recover strong! 💪</p>
-      </footer>
-    </div>
+  return e('div', { className: 'app-container' },
+    e('header', null,
+      e('h1', null, 'Knee Rehab Tracker'),
+      e('button', { id: 'theme-toggle', onClick: toggleTheme, 'aria-label': 'Toggle dark mode' },
+        e('span', { className: 'sun-icon', style: { display: theme === 'dark' ? 'block' : 'none' } }, '☀️'),
+        e('span', { className: 'moon-icon', style: { display: theme === 'light' ? 'block' : 'none' } }, '🌙')
+      )
+    ),
+    e(StatsBar, { streak, totalDays, todayProgress, totalDaily: DAILY_EXERCISE_IDS.length }),
+    e('section', { className: 'exercise-section' },
+      e('h2', null, 'Daily Exercises'),
+      EXERCISES.daily.map(exercise =>
+        e(ExerciseCard, {
+          key: exercise.id,
+          exercise,
+          completedSets: todayData.sets[exercise.id] || 0,
+          onSetChange: handleSetChange,
+          isExpanded: expandedCard === exercise.id,
+          onToggle: () => toggleCard(exercise.id)
+        })
+      )
+    ),
+    e('section', { className: 'exercise-section warmup-section' },
+      e('h2', null, 'Pre-Run Warmup'),
+      e('p', { className: 'section-note' }, 'Only do these before running'),
+      EXERCISES.warmup.map(exercise =>
+        e(ExerciseCard, {
+          key: exercise.id,
+          exercise,
+          completedSets: todayData.sets[exercise.id] || 0,
+          onSetChange: handleSetChange,
+          isExpanded: expandedCard === exercise.id,
+          onToggle: () => toggleCard(exercise.id)
+        })
+      )
+    ),
+    e('section', { className: 'notes-section' },
+      e('h2', null, 'Daily Notes'),
+      e('textarea', {
+        id: 'daily-notes',
+        value: notes,
+        onChange: handleNotesChange,
+        placeholder: 'How does your knee feel today? Any pain or discomfort?'
+      })
+    ),
+    e('section', { className: 'calendar-section' },
+      e('h2', null, 'This Week'),
+      e(WeekView, { completedDays: data.completedDays })
+    ),
+    e('footer', null,
+      e('p', null, 'Stay consistent, recover strong! 💪')
+    )
   );
-};
+}
 
 // Mount app
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(e(App));
 
 // Register service worker
 if ('serviceWorker' in navigator) {

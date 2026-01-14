@@ -1,10 +1,10 @@
 // Service Worker for Knee Rehab Tracker
-const CACHE_NAME = 'knee-rehab-v2';
+const CACHE_NAME = 'knee-rehab-v3';
 const ASSETS = [
     './',
     './index.html',
     './styles.css',
-    './app.jsx',
+    './app.js',
     './manifest.json',
     './icons/icon.svg',
     './images/tke.svg',
