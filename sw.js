@@ -1,17 +1,18 @@
 // Service Worker for Knee Rehab Tracker
-const CACHE_NAME = 'knee-rehab-v1';
+const CACHE_NAME = 'knee-rehab-v2';
 const ASSETS = [
     './',
     './index.html',
     './styles.css',
-    './app.js',
+    './app.jsx',
     './manifest.json',
     './icons/icon.svg',
     './images/tke.svg',
     './images/glute-bridge.svg',
     './images/clamshell.svg',
     './images/wall-sit.svg',
-    './images/leg-swing.svg'
+    './images/leg-swing.svg',
+    './images/knee-drive.svg'
 ];
 
 // Install event - cache assets

@@ -218,51 +218,91 @@ header h1 {
     transform: rotate(180deg);
 }
 
-/* Checkbox styling */
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+/* Completion indicator */
+.completion-indicator {
     width: 28px;
     height: 28px;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.checkmark {
-    width: 24px;
-    height: 24px;
     border: 2px solid var(--border);
-    border-radius: 6px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: transparent;
     transition: all 0.2s;
     background: var(--bg-secondary);
 }
 
-.checkbox-container:hover .checkmark {
-    border-color: var(--accent);
-}
-
-.checkbox-container input:checked + .checkmark {
+.completion-indicator.done {
     background: var(--success);
     border-color: var(--success);
+    color: white;
 }
 
-.checkbox-container input:checked + .checkmark::after {
-    content: '✓';
+/* Set counter */
+.set-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.set-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    line-height: 1;
+}
+
+.set-btn:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
     color: white;
-    font-size: 14px;
-    font-weight: bold;
+}
+
+.set-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.set-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.set-display {
+    min-width: 45px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.set-current {
+    color: var(--text-primary);
+}
+
+.set-current.complete {
+    color: var(--success);
+}
+
+.set-separator {
+    color: var(--text-muted);
+    margin: 0 1px;
+}
+
+.set-total {
+    color: var(--text-muted);
 }
 
 /* Exercise details (collapsible) */
