@@ -14,9 +14,56 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
-    <div id="root"></div>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <div class="app-container">
+        <header>
+            <h1>Knee Rehab Tracker</h1>
+            <button id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-value" id="streak-count">0</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="total-days">0</span>
+                <span class="stat-label">Total Days</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="today-progress">0/5</span>
+                <span class="stat-label">Today</span>
+            </div>
+        </div>
+
+        <section class="exercise-section">
+            <h2>Daily Exercises</h2>
+            <div id="daily-exercises"></div>
+        </section>
+
+        <section class="exercise-section warmup-section">
+            <h2>Pre-Run Warmup</h2>
+            <p class="section-note">Only do these before running</p>
+            <div id="warmup-exercises"></div>
+        </section>
+
+        <section class="notes-section">
+            <h2>Daily Notes</h2>
+            <textarea id="daily-notes" placeholder="How does your knee feel today? Any pain or discomfort?"></textarea>
+        </section>
+
+        <section class="calendar-section">
+            <h2>This Week</h2>
+            <div class="week-view" id="week-view"></div>
+        </section>
+
+        <footer>
+            <p>Stay consistent, recover strong! 💪</p>
+        </footer>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
